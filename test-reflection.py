@@ -33,7 +33,37 @@ Make sure all <tags> are on separate lines with no other text. Do not include ot
 
 import sys
 from time import sleep
+import warnings
+warnings.filterwarnings(action='ignore')
+import datetime
+import random
+import string
 
+logfilename = False
+modelname = 'gemma-2-2b-it-Q5_K_M.gguf'
+
+def writehistory(filename,text):
+    with open(filename, 'a', encoding='utf-8') as f:
+        f.write(text)
+        f.write('\n')
+    f.close()
+
+def genRANstring(n):
+    """
+    n = int number of char to randomize
+    """
+    N = n
+    res = ''.join(random.choices(string.ascii_uppercase +
+                                string.digits, k=N))
+    return res
+
+if logfilename==False:
+## Logger file
+    logfile = f'{genRANstring(5)}_log.txt'
+    file_name = logfile
+    #Write in the history the first 2 sessions
+    writehistory(file_name,f'{str(datetime.datetime.now())}\n\nYour own 2B-ReflectionLLM with 🌀 {modelname}\n---\n🧠🫡: YOUR REFLECTION ASSISTANT\n\n\n')    
+    writehistory(file_name,f'🌀: How may I help you today?\n\n')
 
 print("\033[95;3;6m")
 print("1. Waiting 10 seconds for the API to load...")
@@ -92,6 +122,7 @@ Make sure all <tags> are on separate lines with no other text. Do not include ot
 user question: {userinput}
 """
     history.append({"role": "user", "content": templateinline})
+    writehistory(file_name,f'👨‍💻: {templateinline}\n')
     print("\033[92;1m")
 
     new_message = {"role": "assistant", "content": ""}
@@ -113,4 +144,5 @@ user question: {userinput}
             pass        
     new_message["content"] = full_response
     history.append(new_message)  
+    writehistory(file_name,f'🌟: {full_response}\n\n')
     counter += 1  
