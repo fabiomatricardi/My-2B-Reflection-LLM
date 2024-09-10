@@ -38,6 +38,10 @@ warnings.filterwarnings(action='ignore')
 import datetime
 import random
 import string
+from rich.console import Console
+console = Console(width=100)
+from rich.panel import Panel
+
 
 logfilename = False
 modelname = 'gemma-2-2b-it-Q5_K_M.gguf'
@@ -123,8 +127,8 @@ user question: {userinput}
 """
     history.append({"role": "user", "content": templateinline})
     writehistory(file_name,f'👨‍💻: {templateinline}\n')
-    print("\033[92;1m")
-
+    #print("\033[92;1m")
+    print("\033[0m")  #reset all
     new_message = {"role": "assistant", "content": ""}
     
     full_response = ""
@@ -138,11 +142,23 @@ user question: {userinput}
         stream=True,):
         try:
             if chunk["choices"][0]["delta"]["content"]:
-                print(chunk["choices"][0]["delta"]["content"], end="", flush=True)
+                console.print(chunk["choices"][0]["delta"]["content"], end='')#, flush=True
                 full_response += chunk["choices"][0]["delta"]["content"]                              
         except:
             pass        
     new_message["content"] = full_response
     history.append(new_message)  
     writehistory(file_name,f'🌟: {full_response}\n\n')
+    console.print('\n---\n\n')
+    # Removing closing TAGS because sometimes skipped by GEMMA2
+    text = full_response.replace('</thinking>','')
+    text = text.replace('</output>','')
+    text = text.replace('</reflection>','')
+    thinking = text.split('<thinking>')[-1].split('<reflection>')[0]
+    reflection = text.split('<reflection>')[-1].split('<output>')[0]
+    output = text.split('<output>')[-1] #full_response.split('<output>')[-1].split('</output>')[0]
+    console.print(Panel(thinking,title='THINKING'))
+    console.print(Panel(reflection,title='REFLECTION'))
+    console.print(Panel(output,title='FINAL ANSWER'))
+
     counter += 1  
