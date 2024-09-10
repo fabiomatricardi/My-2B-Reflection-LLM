@@ -6,6 +6,9 @@ The idea comes from a [Reddit post](https://www.reddit.com/r/LocalLLaMA/comments
 
 The usual idea is to ask th BIG models to solve compex(?) math questions, or Reeeally complex questions like "how many 'r's are in raspberry or strawbarry....
 
+
+<img src='https://github.com/fabiomatricardi/My-2B-Reflection-LLM/raw/main/Gemma2B-reflectionLLM.gif' width=900>
+
 I really don't carem but this prompt looked promising, so i wanted to try it with the best 2B model around: Gemma2-2B-instruct
 
 ```
