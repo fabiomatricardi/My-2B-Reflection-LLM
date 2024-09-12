@@ -14,7 +14,7 @@ encoding = tiktoken.get_encoding("r50k_base")
 
 
 if "hf_model" not in st.session_state:
-    st.session_state.hf_model = "gemma-2-9b-it"
+    st.session_state.hf_model = "gemma-2-2b-it"
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -22,33 +22,20 @@ if "messages" not in st.session_state:
 
 @st.cache_resource
 def create_client():
-    """   
-    yourHFtoken = "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" #here your HF token
-    print('loading the API gradio client for gemma-2-9b-it')
-    client = Client("huggingface-projects/gemma-2-9b-it")  #, hf_token=yourHFtoken
-    return client
-    """
     pass
 
 # FUNCTION TO LOG ALL CHAT MESSAGES INTO chathistory.txt
 def writehistory(text):
-    """
-    with open('chathistoryQwenMoE.txt', 'a', encoding='utf-8') as f:
-        f.write(text)
-        f.write('\n')
-    f.close()
-    """
     pass
 
 #AVATARS
-av_us = 'user.png'  # './man.png'  #"🦖"  #A single emoji, e.g. "🧑‍💻", "🤖", "🦖". Shortcodes are not supported.
-av_ass = 'assistant.png'   #'./robot.png'
+av_us = '🧑‍💻'  # './man.png'  #"🦖"  #A single emoji, e.g. "🧑‍💻", "🤖", "🦖". Shortcodes are not supported.
+av_ass = 🤖'   #'./robot.png'
 # Set a default model
 
 
 ### START STREAMLIT UI
-st.image('banner.png', )
-st.markdown("### *powered by Streamlit & Gradio_client*", unsafe_allow_html=True )
+st.markdown("### *powered by Streamlit & Reflection Gemma2-2B*", unsafe_allow_html=True )
 #st.subheader(f"Free ChatBot using {st.session_state.hf_model}")
 st.markdown('---')
 
@@ -200,59 +187,3 @@ for message in st.session_state.messages:
             with st.container(border=True):
                 st.markdown('## RESPONSE')
                 st.markdown(output)                
-
-
-
-########################VOIDED FOR THE TEST############################
-'''
-# Accept user input
-if myprompt := st.chat_input("What is an AI model?"):
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": myprompt})
-    # Display user message in chat message container
-    with st.chat_message("user", avatar=av_us):
-        st.markdown(myprompt)
-        usertext = f"user: {myprompt}"
-        writehistory(usertext)
-        # Display assistant response in chat message container
-    with st.chat_message("assistant",avatar=av_ass):
-        message_placeholder = st.empty()
-        full_response = ""
-        res  =  client.submit(
-                message=myprompt,
-                max_new_tokens=1024,
-                temperature=0.6,
-                top_p=0.9,
-                top_k=50,
-                repetition_penalty=1.2,
-                api_name="/chat"
-                )
-        
-        for r in res:
-            full_response=r
-            message_placeholder.markdown(r+ "✨")
-            #if full_response == '':
-            #    full_response=r[1][0][1]
-            #    message_placeholder.markdown(r[1][0][1]+ "▌")
-            #else:
-            #    try:
-            #        message_placeholder.markdown(r[1][0][1].replace(full_response,'')+ "▌")
-            #        full_response = r[1][0][1]
-            #    except:
-            #        pass   
-
-            #for r in res:           
-            #full_response = full_response + r + " "
-            #message_placeholder.markdown(full_response + "▌")
-            #sleep(0.1)
-            toregister = full_response + f"""
-```
-
-prompt tokens: {len(encoding.encode(myprompt))}
-generated tokens: {len(encoding.encode(full_response))}
-```"""    
-        message_placeholder.markdown(toregister)
-        asstext = f"assistant: {full_response}"
-        writehistory(asstext)       
-        st.session_state.messages.append({"role": "assistant", "content": full_response})    
-'''
