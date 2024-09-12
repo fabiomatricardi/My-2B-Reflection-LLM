@@ -1,32 +1,14 @@
 import streamlit as st
 import time
 import sys
-from gradio_client import Client
-# Internal usage
 import os
 from time import sleep
-import tiktoken
-
-# for counting the tokens in the prompt and in the result
-#context_count = len(encoding.encode(yourtext))
-encoding = tiktoken.get_encoding("r50k_base") 
-
-
 
 if "hf_model" not in st.session_state:
     st.session_state.hf_model = "gemma-2-2b-it"
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
-
-
-@st.cache_resource
-def create_client():
-    pass
-
-# FUNCTION TO LOG ALL CHAT MESSAGES INTO chathistory.txt
-def writehistory(text):
-    pass
 
 #AVATARS
 av_us = '🧑‍💻'  # './man.png'  #"🦖"  #A single emoji, e.g. "🧑‍💻", "🤖", "🦖". Shortcodes are not supported.
@@ -38,8 +20,6 @@ av_ass = 🤖'   #'./robot.png'
 st.markdown("### *powered by Streamlit & Reflection Gemma2-2B*", unsafe_allow_html=True )
 #st.subheader(f"Free ChatBot using {st.session_state.hf_model}")
 st.markdown('---')
-
-client = create_client()
 
 p1 = """You are an AI assistant designed to provide detailed, step-by-step responses. Your outputs should follow this structure:
 1. Begin with a <thinking> section.
